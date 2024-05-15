@@ -1,17 +1,17 @@
 import tkinter as tk
 from tkinter import messagebox
 
-class ConnectFourGUI:
+class ConnectFourGUI:  # GUI for Connect Four game
     def __init__(self, master, rows=6, cols=7, win_length=4):
         self.master = master
         self.rows = rows
         self.cols = cols
         self.win_length = win_length
         self.grid = [['.' for _ in range(cols)] for _ in range(rows)]
-        self.player_turn = 'Red'
+        self.player_turn = 'Red' # Red goes first
         self.buttons = []
 
-        self.master.title("Connect Four")
+        self.master.title("Connect Four")  # Set title of window
         self.frame = tk.Frame(self.master)
         self.frame.pack()
 
@@ -19,7 +19,7 @@ class ConnectFourGUI:
         self.label = tk.Label(self.master, text=f"{self.player_turn}'s Turn", font=("Arial", 16))
         self.label.pack(side=tk.TOP, pady=10)
 
-    def create_grid_interface(self):
+    def create_grid_interface(self):  # Create grid interface for Connect Four game
         for col in range(self.cols):
             button = tk.Button(self.frame, text=str(col), command=lambda c=col: self.insert_token(c), font=("Arial", 14), height=2, width=4)
             button.grid(row=0, column=col)
@@ -27,12 +27,12 @@ class ConnectFourGUI:
 
         self.canvas = tk.Canvas(self.master, width=35*self.cols, height=35*self.rows)
         self.canvas.pack()
-
+        # Draw grid lines
         for row in range(self.rows):
             for col in range(self.cols):
                 self.canvas.create_rectangle(col*35, row*35, col*35+35, row*35+35, fill='white', outline='blue')
 
-    def insert_token(self, column):
+    def insert_token(self, column):  # Insert token into the grid
         if self.grid[0][column] != '.':
             messagebox.showerror("Invalid Move", "Column is full!")
             return
@@ -48,10 +48,10 @@ class ConnectFourGUI:
                     self.label.config(text=f"{self.player_turn}'s Turn")
                 return
 
-    def toggle_player(self):
+    def toggle_player(self):  # Toggle player turn
         self.player_turn = 'Yellow' if self.player_turn == 'Red' else 'Red'
 
-    def check_winner(self):
+    def check_winner(self):  # Check if there is a winner
         directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
         for row in range(self.rows):
             for col in range(self.cols):
@@ -67,7 +67,7 @@ class ConnectFourGUI:
                             return True
         return False
 
-    def end_game(self, message):
+    def end_game(self, message):  # End game
         messagebox.showinfo("Game Over", message)
         self.master.destroy()
 
